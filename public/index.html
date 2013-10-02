@@ -2,16 +2,52 @@
   <head>
   </head>
   <body>
+    <input id='searchTweets' type='button' value='Search Tweets'>
     <script src='http://localhost:1337/socket.io/socket.io.js'></script>
     <script type="text/javascript">
       var socket = io.connect('http://localhost:1337');
-      socket.on('dataSet', function(data) {
-        //alert('data set: ' + data.id);
+      socket.on('tweetsSearched', function(data) {
+        if (data.statuses.length) {
+          var header = document.createElement('h2');
+          header.textContent = 'Tweet from Twitter.';
+          document.body.appendChild(header);
+        }
+        for (var i = 0, max = data.statuses.length; i < max; i++) {
+          var status = data.statuses[i];
+          var p = document.createElement('p');
+          p.textContent = status.text;
+          document.body.appendChild(p);
+          var user = document.createElement('p');
+          user.textContent = status.user.screen_name;
+          document.body.appendChild(user);
+          var date = document.createElement('p');
+          date.textContent = status.created_at;
+          document.body.appendChild(date);
+        }
+      });
+
+      socket.on('nounsReceived', function(data) {
+        if (data.length) {
+          var header = document.createElement('h2');
+          header.textContent = 'Word from Wordnik.';
+          document.body.appendChild(header);
+        }
+        //for (var i = 0, max = data.length; i < max; i++) {
+          var word = data[0];
+          var p = document.createElement('p');
+          p.textContent = word.word;
+          document.body.appendChild(p);
+        //}
       });
     </script>
     <script type="text/javascript">
 
-      //socket.emit('setData', {id: agent.id, velocityY: agent.velocity.y});
+      var button = document.getElementById('searchTweets');
+      button.addEventListener('mouseup', function() {
+        socket.emit('searchTweets', {});
+      });
+
+      //
 
     </script>
   </body>
