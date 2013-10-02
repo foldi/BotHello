@@ -1,0 +1,18 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <script src='http://localhost:1337/socket.io/socket.io.js'></script>
+    <script type="text/javascript">
+      var socket = io.connect('http://localhost:1337');
+      socket.on('dataSet', function(data) {
+        //alert('data set: ' + data.id);
+      });
+    </script>
+    <script type="text/javascript">
+
+      //socket.emit('setData', {id: agent.id, velocityY: agent.velocity.y});
+
+    </script>
+  </body>
+</html>
